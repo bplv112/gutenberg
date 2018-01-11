@@ -7,6 +7,7 @@ import { filter, every } from 'lodash';
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n';
+import { withNotices } from '@wordpress/components';
 import {
 	createBlock,
 	editorMediaUpload,
@@ -135,11 +136,11 @@ export const settings = {
 				},
 				transform( files, onChange ) {
 					const block = createBlock( 'core/gallery' );
-					editorMediaUpload(
-						files,
-						( images ) => onChange( block.uid, { images } ),
-						'image'
-					);
+					editorMediaUpload( {
+						filesList: files,
+						onFileChange: ( images ) => onChange( block.uid, { images } ),
+						allowedType: 'image',
+					} );
 					return block;
 				},
 			},
@@ -165,7 +166,7 @@ export const settings = {
 		}
 	},
 
-	edit: GalleryBlock,
+	edit: withNotices( GalleryBlock ),
 
 	save( { attributes } ) {
 		const { images, columns = defaultColumnsNumber( attributes ), align, imageCrop, linkTo } = attributes;
