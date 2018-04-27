@@ -3,12 +3,14 @@
  */
 import { BlockControls, BlockFormatControls } from '@wordpress/blocks';
 import { withSelect } from '@wordpress/data';
+import { Toolbar } from '@wordpress/components';
 
 /**
  * Internal Dependencies
  */
 import './style.scss';
 import BlockSwitcher from '../block-switcher';
+import BlockSelectParent from '../block-select-parent';
 
 function BlockToolbar( { block, mode } ) {
 	if ( ! block || ! block.isValid || mode !== 'visual' ) {
@@ -17,6 +19,7 @@ function BlockToolbar( { block, mode } ) {
 
 	return (
 		<div className="editor-block-toolbar">
+			<Toolbar><BlockSelectParent uid={ block.uid } /></Toolbar>
 			<BlockSwitcher uids={ [ block.uid ] } />
 			<BlockControls.Slot />
 			<BlockFormatControls.Slot />
